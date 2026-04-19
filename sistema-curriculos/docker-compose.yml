@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  backend-java:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+
+  analise-python:
+    build: ./data
+    volumes:
+      - ./data:/app/data
+    command: python banco_dados.py
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"  # porta principal que faz  http://localhost funcionar!
+    depends_on:
+      - backend-java

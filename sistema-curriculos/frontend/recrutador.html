@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Recrutador - Candidatos</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .container-painel {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border: 3px solid #000;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #212529;
+            text-align: left;
+            font-size: 14px;
+            color: #000;
+        }
+        th {
+            background-color: #004a99;
+            color: white;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        .btn-voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #004a99;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-painel">
+        <a href="index.html" class="btn-voltar">⬅ Voltar ao Cadastro</a>
+        <h1>Candidatos Cadastrados</h1>
+        
+        <div id="tabela-espaco">
+            <p>Carregando dados dos candidatos...</p>
+        </div>
+    </div>
+
+    <script>
+        const URL_BACKEND = "https://backend-1010907062664.us-central1.run.app/curriculos";
+
+        async function buscarDados() {
+            try {
+                const resposta = await fetch(URL_BACKEND);
+                if (!resposta.ok) throw new Error("Erro ao buscar dados");
+                
+                const candidatos = await resposta.json();
+                
+                if (candidatos.length === 0) {
+                    document.getElementById('tabela-espaco').innerHTML = "<p>Nenhum candidato cadastrado até o momento.</p>";
+                    return;
+                }
+
+                // Tabela com os novos campos 
+                let tabelaHtml = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Área</th>
+                                <th>Nível</th>
+                                <th>Cidade/Endereço</th>
+                                <th>Resumo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                candidatos.forEach(c => {
+                    tabelaHtml += `
+                        <tr>
+                            <td>${c.nome || '-'}</td>
+                            <td>${c.email || '-'}</td>
+                            <td>${c.area || '-'}</td>
+                            <td>${c.nivel || '-'}</td>
+                            <td>${c.endereco || '-'}</td>
+                            <td>${c.resumo ? c.resumo.substring(0, 40) + '...' : '-'}</td>
+                        </tr>
+                    `;
+                });
+
+                tabelaHtml += "</tbody></table>";
+                document.getElementById('tabela-espaco').innerHTML = tabelaHtml;
+
+            } catch (erro) {
+                console.error(erro);
+                document.getElementById('tabela-espaco').innerHTML = "<p style='color:red;'>Erro ao carregar a lista de candidatos.</p>";
+            }
+        }
+        buscarDados();
+    </script>
+</body>
+</html>

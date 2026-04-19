@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Candidatos</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    
+    <form id="meuFormulario">
+        <h1>Cadastro de Candidatos</h1>
+
+        <div>
+            <label>Nome Completo</label><br>
+            <input type="text" name="nome" required>
+        </div>
+
+        <div>
+            <label>E-mail</label><br>
+            <input type="email" name="email" required>                     
+        </div>  
+
+        <div>
+            <label>Telefone</label><br>
+            <input type="text" name="telefone" required>
+        </div>
+
+        <div>
+            <label>CPF</label><br>
+            <input type="text" name="cpf" placeholder="Somente números" required>
+        </div>
+
+        <div>
+            <label>Data de Nascimento</label><br>
+            <input type="date" name="data_nascimento" required>
+        </div>      
+
+        <div>
+            <label>Gênero</label><br>
+            <select name="genero" required>
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Endereço</label><br>
+            <input type="text" name="endereco" required>
+        </div>
+
+        <div>
+            <label>Formação Acadêmica</label><br>
+            <input type="text" name="formacao_academica" required>
+        </div>
+
+        <div>
+            <label>Área de Atuação</label><br>
+            <select name="area" required>
+                <option value="">Selecione uma área</option>
+                <option value="Tecnologia">Tecnologia</option>
+                <option value="Saúde">Saúde</option>
+                <option value="Educação">Educação</option>
+                <option value="Administração">Administração</option>
+                <option value="Outro">Outro</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Nível Profissional</label><br>
+            <select name="nivel" required>
+                <option value="">Selecione</option>
+                <option value="Estágio">Estágio</option>
+                <option value="Júnior">Júnior</option>
+                <option value="Pleno">Pleno</option>
+                <option value="Sênior">Sênior</option>
+            </select>       
+        </div>
+
+        <div>
+            <label>Resumo Profissional</label><br>
+            <textarea name="resumo" rows="4" style="width: 100%;" required></textarea>
+        </div>
+
+        <div>
+            <label>Habilidades</label><br>
+            <input type="text" name="habilidades" required>
+        </div>
+
+        <div>
+            <label>Idiomas</label><br>
+            <input type="text" name="idiomas" required>
+        </div>
+
+        <div>
+            <label>Certificações</label><br>
+            <input type="text" name="certificacoes" required>
+        </div>        
+        
+        <hr> 
+        
+        <div>
+            <p>Qual melhor horário para entrar em contato?</p>
+            <select name="horario" required>
+                <option value="">Selecione</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="noite">Noite</option>
+                <option value="Indiferente">Indiferente</option>
+            </select>
+        </div>
+
+        <div>
+            <p>Como prefere o nosso contato?</p> 
+            <input type="radio" id="contato_email" name="preferencia_contato" value="email">
+            <label for="contato_email" style="display:inline;">E-mail</label><br>
+
+            <input type="radio" id="contato_telefone" name="preferencia_contato" value="telefone">
+            <label for="contato_telefone" style="display:inline;">Telefone</label><br>
+
+            <input type="radio" id="contato_whatsapp" name="preferencia_contato" value="whatsapp">
+            <label for="contato_whatsapp" style="display:inline;">Whatsapp</label><br>
+        </div>
+
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('meuFormulario').addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+
+            const formData = new FormData(e.target);
+            const dados = Object.fromEntries(formData.entries());
+
+            try {
+                const resposta = await fetch("https://backend-1010907062664.us-central1.run.app/curriculos", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (resposta.ok) {
+                    alert("Candidato cadastrado com sucesso!");
+                    window.location.href = "recrutador.html";
+                } else {
+                    alert("Erro ao enviar dados para o servidor.");
+                }
+            } catch (erro) {
+                console.error("Erro de rede:", erro);
+                alert("Erro de conexão. Verifique se o backend está online.");
+            }
+        });
+    </script>
+</body>
+</html>

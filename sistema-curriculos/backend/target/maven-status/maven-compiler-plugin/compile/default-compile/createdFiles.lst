@@ -1,0 +1,4 @@
+com/cminovacoes/SistemaCurriculosApplication.class
+com/cminovacoes/model/Curriculo.class
+com/cminovacoes/controller/CurriculoController.class
+com/cminovacoes/repository/CurriculoRepository.class
