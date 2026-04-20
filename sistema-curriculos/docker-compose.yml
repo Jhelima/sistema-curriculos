@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   backend-java:
     build: ./backend
@@ -16,6 +17,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "80:80"  # porta principal que faz  http://localhost funcionar!
+      - "80:8080"  # faz ngnix funcionar.
     depends_on:
       - backend-java
+      

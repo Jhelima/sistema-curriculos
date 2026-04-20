@@ -52,12 +52,13 @@
     </div>
 
     <script>
-        const URL_BACKEND = "https://backend-1010907062664.us-central1.run.app/curriculos";
+        // URL  PARA O BACKEND-JAVA NA NUVEM
+        const URL_BACKEND = "https://backend-java-1010907062664.us-central1.run.app/candidatos";
 
         async function buscarDados() {
             try {
                 const resposta = await fetch(URL_BACKEND);
-                if (!resposta.ok) throw new Error("Erro ao buscar dados");
+                if (!resposta.ok) throw new Error("Erro ao buscar dados (Status: " + resposta.status + ")");
                 
                 const candidatos = await resposta.json();
                 
@@ -66,7 +67,6 @@
                     return;
                 }
 
-                // Tabela com os novos campos 
                 let tabelaHtml = `
                     <table>
                         <thead>
@@ -99,8 +99,9 @@
                 document.getElementById('tabela-espaco').innerHTML = tabelaHtml;
 
             } catch (erro) {
-                console.error(erro);
-                document.getElementById('tabela-espaco').innerHTML = "<p style='color:red;'>Erro ao carregar a lista de candidatos.</p>";
+                console.error("Erro detalhado:", erro);
+                document.getElementById('tabela-espaco').innerHTML = 
+                    `<p style='color:red;'>Erro ao carregar a lista de candidatos. Verifique se o backend em ${URL_BACKEND} está ativo.</p>`;
             }
         }
         buscarDados();
