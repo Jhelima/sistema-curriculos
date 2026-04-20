@@ -18,4 +18,4 @@ Para rodar o projeto completo localmente, é necessário ter o Docker instalado:
 1. No terminal, acesse a pasta raiz do projeto.
 2. Execute o comando:
    ```bash
-  # docker-compose up --build
+   docker-compose up --build
